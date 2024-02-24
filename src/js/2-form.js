@@ -1,4 +1,3 @@
-
 const form = document.querySelector('.feedback-form');
 
 function saveFormDataToLocalStorage() {
@@ -7,16 +6,18 @@ function saveFormDataToLocalStorage() {
     message: form.message.value.trim()
   };
 
-  if (formData.email && formData.message) {
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+}
+
+function loadFormDataFromLocalStorage() {
+  const savedFormData = JSON.parse(localStorage.getItem('feedback-form-state'));
+  if (savedFormData) {
+    form.email.value = savedFormData.email || '';
+    form.message.value = savedFormData.message || '';
   }
 }
 
-const savedFormData = JSON.parse(localStorage.getItem('feedback-form-state'));
-if (savedFormData) {
-  form.email.value = savedFormData.email;
-  form.message.value = savedFormData.message;
-}
+loadFormDataFromLocalStorage(); // Викликаємо функцію при завантаженні сторінки, щоб підставити дані з локального сховища
 
 form.addEventListener('input', function () {
   saveFormDataToLocalStorage();
